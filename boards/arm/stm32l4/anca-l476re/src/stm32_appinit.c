@@ -47,6 +47,8 @@
 #include <syslog.h>
 #include <errno.h>
 
+#include <sys/boardctl.h>
+
 #include <nuttx/arch.h>
 #include <nuttx/board.h>
 #include <nuttx/sdio.h>
@@ -463,7 +465,21 @@ int board_app_initialize(uintptr_t arg)
 #ifdef CONFIG_BOARDCTL_IOCTL
 int board_ioctl(unsigned int cmd, uintptr_t arg)
 {
-  return -ENOTTY;
+  switch (cmd)
+    {
+      case BIOC_SET_BOOT_TARGET:
+        {
+	  break;
+	}
+      case BIOC_SET_RESET_REASON:
+        {
+	  break;
+	}
+      default:
+        return -EINVAL;
+    }
+
+  return OK;
 }
 #endif
 

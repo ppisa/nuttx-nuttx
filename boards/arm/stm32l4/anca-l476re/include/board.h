@@ -49,6 +49,15 @@
  * Pre-processor Definitions
  ****************************************************************************/
 
+/* Board control commands ***************************************************/
+
+#define BIOC_SET_BOOT_TARGET   (BOARDIOC_USER + 1)
+#define     BIOC_SET_BOOT_QUERY             0
+#define     BIOC_SET_BOOT_TO_LOADER         1
+#define     BIOC_SET_BOOT_TO_APP            2
+#define     BIOC_SET_BOOT_TO_APP_NO_TIMEOUT 3
+#define BIOC_SET_RESET_REASON  (BOARDIOC_USER + 2)
+
 /* Clocking *****************************************************************/
 
 #if defined(CONFIG_ARCH_CHIP_STM32L476RE)

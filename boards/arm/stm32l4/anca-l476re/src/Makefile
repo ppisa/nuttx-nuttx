@@ -94,4 +94,6 @@ ifeq ($(CONFIG_LIB_BOARDCTL),y)
 CSRCS += stm32_appinit.c
 endif
 
+CSRCS += stm32_bootctl.c
+
 include $(TOPDIR)/boards/Board.mk
