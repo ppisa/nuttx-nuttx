@@ -469,12 +469,13 @@ int board_ioctl(unsigned int cmd, uintptr_t arg)
     {
       case BIOC_SET_BOOT_TARGET:
         {
-	  break;
+          return anca_l476re_set_reset_target(arg);
 	}
       case BIOC_SET_RESET_REASON:
         {
-	  break;
-	}
+          anca_l476re_set_reset_reason(arg);
+          break;
+        }
       default:
         return -EINVAL;
     }

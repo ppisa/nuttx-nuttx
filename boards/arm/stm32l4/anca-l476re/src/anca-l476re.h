@@ -388,4 +388,8 @@ int stm32_as726xinitialize(FAR const char *devpath);
 int stm32_bmp180initialize(FAR const char *devpath);
 #endif
 
+int anca_l476re_set_reset_target(int target);
+
+void anca_l476re_set_reset_reason(uint32_t reason);
+
 #endif /* __BOARDS_ARM_STM32L4_ANCA_L476RE_SRC_ANCA_L476RE_H */
