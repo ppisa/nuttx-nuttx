@@ -85,17 +85,20 @@
 #  undef HAVE_MMCSD_SDIO
 #endif
 
-/* LED.  User LD2: the green LED is a user LED connected to Arduino signal D13
- * corresponding to MCU I/O PA5 (pin 21) or PB13 (pin 34) depending on the STM32
- * target.
- *
- * - When the I/O is HIGH value, the LED is on.
- * - When the I/O is LOW, the LED is off.
- */
+/* ANCA-L476RE GPIO Pin Definitions ******************************************/
 
-#define GPIO_LD2 \
-  (GPIO_PORTA | GPIO_PIN5 | GPIO_OUTPUT_CLEAR | GPIO_OUTPUT | GPIO_PULLUP | \
-   GPIO_SPEED_50MHz)
+#define GPIO_LD1       (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | GPIO_OUTPUT_CLEAR | \
+                        GPIO_PORTB | GPIO_PIN0)
+#define GPIO_LD2       (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | GPIO_OUTPUT_CLEAR | \
+                        GPIO_PORTB | GPIO_PIN1)
+#define GPIO_LD3       (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | GPIO_OUTPUT_CLEAR | \
+                        GPIO_PORTB | GPIO_PIN2)
+
+#define GPIO_LED_BLUE  GPIO_LD1
+#define GPIO_LED_RED   GPIO_LD2
+#define GPIO_LED_GREEN GPIO_LD3
+
+#define LED_DRIVER_PATH "/dev/userleds"
 
 /* Buttons
  *
@@ -168,85 +171,24 @@
 #define NUCLEO_I2C_OBDEV_LED       0x55
 #define NUCLEO_I2C_OBDEV_HMC5883   0x1e
 
-/* User GPIOs
- *
- * GPIO0-1 are for probing WIFI status
- */
-
-/* Itead Joystick Shield
- *
- * See http://imall.iteadstudio.com/im120417014.html for more information
- * about this joystick.
- *
- *   --------- ----------------- ---------------------------------
- *   ARDUINO   ITEAD             NUCLEO-F4x1
- *   PIN NAME  SIGNAL            SIGNAL
- *   --------- ----------------- ---------------------------------
- *    D3       Button E Output   PB3
- *    D4       Button D Output   PB5
- *    D5       Button C Output   PB4
- *    D6       Button B Output   PB10
- *    D7       Button A Output   PA8
- *    D8       Button F Output   PA9
- *    D9       Button G Output   PC7
- *    A0       Joystick Y Output PA0  ADC1_0
- *    A1       Joystick X Output PA1  ADC1_1
- *   --------- ----------------- ---------------------------------
- *
- *   All buttons are pulled on the shield.  A sensed low value indicates
- *   when the button is pressed.
- *
- *   NOTE: Button F cannot be used with the default USART1 configuration
- *   because PA9 is configured for USART1_RX by default.  Use select
- *   different USART1 pins in the board.h file or select a different
- *   USART or select CONFIG_ANCA_L476RE_AJOY_MINBUTTONS which will
- *   eliminate all but buttons A, B, and C.
- */
-
-#define ADC_XOUPUT   1 /* X output is on ADC channel 1 */
-#define ADC_YOUPUT   0 /* Y output is on ADC channel 0 */
 
 #define GPIO_BUTTON_A \
-  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTA | GPIO_PIN8)
+  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTC | GPIO_PIN9)
 #define GPIO_BUTTON_B \
-  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTB | GPIO_PIN10)
+  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTC | GPIO_PIN8)
 #define GPIO_BUTTON_C \
-  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTB | GPIO_PIN4)
-#define GPIO_BUTTON_D \
-  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTB | GPIO_PIN5)
-#define GPIO_BUTTON_E \
-  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTB | GPIO_PIN3)
-#define GPIO_BUTTON_F \
-  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTA | GPIO_PIN9)
-#define GPIO_BUTTON_G \
   (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTC | GPIO_PIN7)
+#define GPIO_BUTTON_D \
+  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTC | GPIO_PIN6)
+#define GPIO_BUTTON_E \
+  (GPIO_INPUT | GPIO_PULLUP |GPIO_EXTI | GPIO_PORTB | GPIO_PIN11)
 
-/* Itead Joystick Signal interpretation:
- *
- *   --------- ----------------------- ---------------------------
- *   BUTTON     TYPE                    NUTTX ALIAS
- *   --------- ----------------------- ---------------------------
- *   Button A  Large button A          JUMP/BUTTON 3
- *   Button B  Large button B          FIRE/BUTTON 2
- *   Button C  Joystick select button  SELECT/BUTTON 1
- *   Button D  Tiny Button D           BUTTON 6
- *   Button E  Tiny Button E           BUTTON 7
- *   Button F  Large Button F          BUTTON 4
- *   Button G  Large Button G          BUTTON 5
- *   --------- ----------------------- ---------------------------
- */
-
-#define GPIO_BUTTON_1 GPIO_BUTTON_C
+#define GPIO_BUTTON_1 GPIO_BUTTON_A
 #define GPIO_BUTTON_2 GPIO_BUTTON_B
-#define GPIO_BUTTON_3 GPIO_BUTTON_A
-#define GPIO_BUTTON_4 GPIO_BUTTON_F
-#define GPIO_BUTTON_5 GPIO_BUTTON_G
-#define GPIO_BUTTON_6 GPIO_BUTTON_D
-#define GPIO_BUTTON_7 GPIO_BUTTON_E
+#define GPIO_BUTTON_3 GPIO_BUTTON_C
+#define GPIO_BUTTON_4 GPIO_BUTTON_D
+#define GPIO_BUTTON_5 GPIO_BUTTON_E
 
-#define GPIO_SELECT   GPIO_BUTTON_1
-#define GPIO_FIRE     GPIO_BUTTON_2
-#define GPIO_JUMP     GPIO_BUTTON_3
 
 /* GPIO pins used by the GPIO Subsystem
  * Added by: Ben vd Veen (DisruptiveNL) -- www.nuttx.nl

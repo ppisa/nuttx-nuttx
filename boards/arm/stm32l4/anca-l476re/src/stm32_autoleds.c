@@ -55,6 +55,38 @@
 #ifdef CONFIG_ARCH_LEDS
 
 /****************************************************************************
+ * Pre-processor Definitions
+ ****************************************************************************/
+
+#define ARRAYSIZE(x) (sizeof((x)) / sizeof((x)[0]))
+
+/****************************************************************************
+ * Private Data
+ ****************************************************************************/
+
+/* Indexed by BOARD_LED_<color> */
+
+static const uint32_t g_ledmap[BOARD_NLEDS] =
+{
+  GPIO_LED_GREEN,
+  GPIO_LED_BLUE,
+  GPIO_LED_RED,
+};
+
+static bool g_initialized;
+
+/****************************************************************************
+ * Private Functions
+ ****************************************************************************/
+
+static void phy_set_led(int led, bool state)
+{
+  /* Active High */
+
+  stm32l4_gpiowrite(g_ledmap[led], state);
+}
+
+/****************************************************************************
  * Public Functions
  ****************************************************************************/
 
@@ -64,9 +96,14 @@
 
 void board_autoled_initialize(void)
 {
-  /* Configure LD2 GPIO for output */
+  int i;
 
-  stm32l4_configgpio(GPIO_LD2);
+  /* Configure the LD1 GPIO for output. Initial state is OFF */
+
+  for (i = 0; i < ARRAYSIZE(g_ledmap); i++)
+    {
+      stm32l4_configgpio(g_ledmap[i]);
+    }
 }
 
 /****************************************************************************
@@ -75,9 +112,46 @@ void board_autoled_initialize(void)
 
 void board_autoled_on(int led)
 {
-  if (led == 1)
+  switch (led)
     {
-      stm32l4_gpiowrite(GPIO_LD2, true);
+    default:
+      break;
+
+    case LED_HEAPALLOCATE:
+      phy_set_led(BOARD_LED_BLUE, true);
+      break;
+
+    case LED_IRQSENABLED:
+      phy_set_led(BOARD_LED_BLUE, false);
+      phy_set_led(BOARD_LED_GREEN, true);
+      break;
+
+    case LED_STACKCREATED:
+      phy_set_led(BOARD_LED_GREEN, true);
+      phy_set_led(BOARD_LED_BLUE, true);
+      g_initialized = true;
+      break;
+
+    case LED_INIRQ:
+      phy_set_led(BOARD_LED_BLUE, true);
+      break;
+
+    case LED_SIGNAL:
+      phy_set_led(BOARD_LED_GREEN, true);
+      break;
+
+    case LED_ASSERTION:
+      phy_set_led(BOARD_LED_RED, true);
+      phy_set_led(BOARD_LED_BLUE, true);
+      break;
+
+    case LED_PANIC:
+      phy_set_led(BOARD_LED_RED, true);
+      break;
+
+    case LED_IDLE : /* IDLE */
+      phy_set_led(BOARD_LED_RED, true);
+    break;
     }
 }
 
@@ -87,10 +161,31 @@ void board_autoled_on(int led)
 
 void board_autoled_off(int led)
 {
-  if (led == 1)
+  switch (led)
     {
-      stm32l4_gpiowrite(GPIO_LD2, false);
+    default:
+      break;
+
+    case LED_SIGNAL:
+      phy_set_led(BOARD_LED_GREEN, false);
+      break;
+
+    case LED_INIRQ:
+      phy_set_led(BOARD_LED_BLUE, false);
+      break;
+
+    case LED_ASSERTION:
+      phy_set_led(BOARD_LED_RED, false);
+      phy_set_led(BOARD_LED_BLUE, false);
+      break;
+
+    case LED_PANIC:
+      phy_set_led(BOARD_LED_RED, false);
+      break;
+
+    case LED_IDLE : /* IDLE */
+      phy_set_led(BOARD_LED_RED, false);
+    break;
     }
 }
-
 #endif /* CONFIG_ARCH_LEDS */
