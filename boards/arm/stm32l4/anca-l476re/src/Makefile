@@ -52,6 +52,10 @@ ifeq ($(CONFIG_ARCH_BUTTONS),y)
 CSRCS +=  stm32_buttons.c
 endif
 
+ifeq ($(CONFIG_BOARDCTL_RESET),y)
+CSRCS += stm32_reset.c
+endif
+
 ifeq ($(CONFIG_WL_CC1101),y)
 CSRCS += stm32_cc1101.c
 endif
