@@ -55,7 +55,7 @@
  *   LSE: 32.768 kHz
  */
 
-#define STM32_BOARD_XTAL        8000000ul /* ST-LINK MCO */
+#define STM32_BOARD_XTAL        25000000ul /* ST-LINK MCO */
 
 #define STM32_HSI_FREQUENCY     16000000ul
 #define STM32_LSI_FREQUENCY     32000
@@ -92,7 +92,7 @@
  */
 
 #define STM32_BOARD_USEHSE
-#define STM32_HSEBYP_ENABLE
+#undef STM32_HSEBYP_ENABLE
 
 #define STM32_PLLCFG_PLLSRC      RCC_PLLCKSELR_PLLSRC_HSE
 
@@ -106,35 +106,36 @@
  */
 
 #define STM32_PLLCFG_PLL1CFG     (RCC_PLLCFGR_PLL1VCOSEL_WIDE | \
-                                  RCC_PLLCFGR_PLL1RGE_4_8_MHZ | \
+                                  RCC_PLLCFGR_PLL1RGE_8_16_MHZ | \
                                   RCC_PLLCFGR_DIVP1EN | \
                                   RCC_PLLCFGR_DIVQ1EN | \
                                   RCC_PLLCFGR_DIVR1EN)
 #define STM32_PLLCFG_PLL1M       RCC_PLLCKSELR_DIVM1(2)
-#define STM32_PLLCFG_PLL1N       RCC_PLL1DIVR_N1(200)
-#define STM32_PLLCFG_PLL1P       RCC_PLL1DIVR_P1(2)
-#define STM32_PLLCFG_PLL1Q       RCC_PLL1DIVR_Q1(4)
-#define STM32_PLLCFG_PLL1R       RCC_PLL1DIVR_R1(8)
+#define STM32_PLLCFG_PLL1N       RCC_PLL1DIVR_N1(40)
+#define STM32_PLLCFG_PLL1P       RCC_PLL1DIVR_P1(1)
+#define STM32_PLLCFG_PLL1Q       RCC_PLL1DIVR_Q1(8)
+#define STM32_PLLCFG_PLL1R       RCC_PLL1DIVR_R1(10)
 
-#define STM32_VCO1_FREQUENCY     ((STM32_HSE_FREQUENCY / 2) * 200)
-#define STM32_PLL1P_FREQUENCY    (STM32_VCO1_FREQUENCY / 2)
-#define STM32_PLL1Q_FREQUENCY    (STM32_VCO1_FREQUENCY / 4)
-#define STM32_PLL1R_FREQUENCY    (STM32_VCO1_FREQUENCY / 8)
+#define STM32_VCO1_FREQUENCY     ((STM32_HSE_FREQUENCY / 2) * 40)
+#define STM32_PLL1P_FREQUENCY    (STM32_VCO1_FREQUENCY / 1)
+#define STM32_PLL1Q_FREQUENCY    (STM32_VCO1_FREQUENCY / 8)
+#define STM32_PLL1R_FREQUENCY    (STM32_VCO1_FREQUENCY / 10)
 
 /* PLL2 */
 
 #define STM32_PLLCFG_PLL2CFG (RCC_PLLCFGR_PLL2VCOSEL_WIDE | \
-                              RCC_PLLCFGR_PLL2RGE_4_8_MHZ | \
-                              RCC_PLLCFGR_DIVP2EN)
+                              RCC_PLLCFGR_PLL1RGE_8_16_MHZ | \
+                              RCC_PLLCFGR_DIVP2EN | \
+                              RCC_PLLCFGR_DIVQ2EN )
 #define STM32_PLLCFG_PLL2M       RCC_PLLCKSELR_DIVM2(2)
-#define STM32_PLLCFG_PLL2N       RCC_PLL2DIVR_N2(200)
-#define STM32_PLLCFG_PLL2P       RCC_PLL2DIVR_P2(40)
-#define STM32_PLLCFG_PLL2Q       0
-#define STM32_PLLCFG_PLL2R       0
+#define STM32_PLLCFG_PLL2N       RCC_PLL2DIVR_N2(40)
+#define STM32_PLLCFG_PLL2P       RCC_PLL2DIVR_P2(100)
+#define STM32_PLLCFG_PLL2Q       RCC_PLL2DIVR_Q2(8)
+#define STM32_PLLCFG_PLL2R       RCC_PLL2DIVR_R2(2)
 
-#define STM32_VCO2_FREQUENCY     ((STM32_HSE_FREQUENCY / 2) * 200)
-#define STM32_PLL2P_FREQUENCY    (STM32_VCO2_FREQUENCY / 2)
-#define STM32_PLL2Q_FREQUENCY
+#define STM32_VCO2_FREQUENCY     ((STM32_HSE_FREQUENCY / 2) * 40)
+#define STM32_PLL2P_FREQUENCY    (STM32_VCO2_FREQUENCY / 100)
+#define STM32_PLL2Q_FREQUENCY    (STM32_VCO2_FREQUENCY / 8)
 #define STM32_PLL2R_FREQUENCY
 
 /* PLL3 */
@@ -283,9 +284,9 @@
 
 /* Ethernet definitions *****************************************************/
 
-#define GPIO_ETH_RMII_TXD0    (GPIO_ETH_RMII_TXD0_2 | GPIO_SPEED_100MHz)    /* PG13 */
+#define GPIO_ETH_RMII_TXD0    (GPIO_ETH_RMII_TXD0_1 | GPIO_SPEED_100MHz)    /* PB12 */
 #define GPIO_ETH_RMII_TXD1    (GPIO_ETH_RMII_TXD1_1 | GPIO_SPEED_100MHz)    /* PB13 */
-#define GPIO_ETH_RMII_TX_EN   (GPIO_ETH_RMII_TX_EN_2 | GPIO_SPEED_100MHz)   /* PG11 */
+#define GPIO_ETH_RMII_TX_EN   (GPIO_ETH_RMII_TX_EN_1 | GPIO_SPEED_100MHz)   /* PB11 */
 #define GPIO_ETH_MDC          (GPIO_ETH_MDC_0 | GPIO_SPEED_100MHz)          /* PC1 */
 #define GPIO_ETH_MDIO         (GPIO_ETH_MDIO_0 | GPIO_SPEED_100MHz)         /* PA2 */
 #define GPIO_ETH_RMII_RXD0    (GPIO_ETH_RMII_RXD0_0 | GPIO_SPEED_100MHz)    /* PC4 */
@@ -376,6 +377,14 @@
 #define GPIO_ADC12_INP4   GPIO_ADC12_INP4_0                      /* PC4, channel 4  */
 #define GPIO_ADC12_INP8   GPIO_ADC12_INP8_0                      /* PC5, channel 8  */
 
+/* USART1 J201 / JTAG Connector Console */
+
+#define GPIO_USART1_RX    (GPIO_USART1_RX_3 | GPIO_SPEED_100MHz) /* PB7 */
+#define GPIO_USART1_TX    (GPIO_USART1_TX_1 | GPIO_SPEED_100MHz) /* PB14 */
+
+#define DMAMAP_USART1_RX DMAMAP_DMA12_USART1RX_0
+#define DMAMAP_USART1_TX DMAMAP_DMA12_USART1TX_1
+
 /* USART3 (Nucleo Virtual Console) */
 
 #define GPIO_USART3_RX    (GPIO_USART3_RX_3 | GPIO_SPEED_100MHz) /* PD9 */
@@ -425,7 +434,7 @@
 #define GPIO_TIM2_CH1IN   (GPIO_TIM2_CH1IN_2)   /* PA15 */
 #define GPIO_TIM2_CH2IN   (GPIO_TIM2_CH2IN_1)   /* PB3 */
 #define GPIO_TIM2_CH3IN   (GPIO_TIM2_CH3IN_1)   /* PB10 */
-#define GPIO_TIM2_CH4IN   (GPIO_TIM2_CH4IN_1)   /* PB11 */
+//#define GPIO_TIM2_CH4IN   (GPIO_TIM2_CH4IN_1)   /* PB11 */ clashes with RMII
 
 /* TIM3 - General Purpose 16-bit Timer (4 channels) */
 #define GPIO_TIM3_CH1IN   (GPIO_TIM3_CH1IN_1)   /* PA6 */
