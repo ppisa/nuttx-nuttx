@@ -112,11 +112,11 @@
  */
 
 #define GPIO_LD1       (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | \
-                        GPIO_OUTPUT_CLEAR | GPIO_PORTB | GPIO_PIN0)
+                        GPIO_OUTPUT_CLEAR | GPIO_PORTD | GPIO_PIN6)
 #define GPIO_LD2       (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | \
-                        GPIO_OUTPUT_CLEAR | GPIO_PORTE | GPIO_PIN1)
+                        GPIO_OUTPUT_CLEAR | GPIO_PORTE | GPIO_PIN14)
 #define GPIO_LD3       (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | \
-                        GPIO_OUTPUT_CLEAR | GPIO_PORTB | GPIO_PIN14)
+                        GPIO_OUTPUT_CLEAR | GPIO_PORTE | GPIO_PIN15)
 
 #define GPIO_LED_GREEN  GPIO_LD1
 #define GPIO_LED_YELLOW GPIO_LD2
@@ -159,15 +159,16 @@
 
 /* GPIO pins used by the GPIO Subsystem */
 
-#define BOARD_NGPIOIN     1 /* Amount of GPIO Input pins */
+#define BOARD_NGPIOIN     2 /* Amount of GPIO Input pins */
 #define BOARD_NGPIOOUT    1 /* Amount of GPIO Output pins */
 #define BOARD_NGPIOINT    1 /* Amount of GPIO Input w/ Interruption pins */
 
 /* Example, used free Ports on the board */
 
-#define GPIO_IN1          (GPIO_INPUT | GPIO_FLOAT | GPIO_PORTE | GPIO_PIN2)
+#define GPIO_IN1          (GPIO_INPUT | GPIO_FLOAT | GPIO_PORTE | GPIO_PIN12)
+#define GPIO_IN2          (GPIO_INPUT | GPIO_FLOAT | GPIO_PORTE | GPIO_PIN13)
 #define GPIO_OUT1         (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | \
-                           GPIO_OUTPUT_SET | GPIO_PORTE | GPIO_PIN4)
+                           GPIO_OUTPUT_SET | GPIO_PORTB | GPIO_PIN15)
 #define GPIO_INT1         (GPIO_INPUT | GPIO_FLOAT | GPIO_PORTE | GPIO_PIN5)
 
 /* OA-TC6 SPI CS + INT signal mapping
@@ -178,9 +179,9 @@
  * INT  - PF3  (D8)
  */
 
-#define GPIO_OA_TC6_SPI_PORT 3
+#define GPIO_OA_TC6_SPI_PORT 1
 #define GPIO_OA_TC6_CS  (GPIO_OUTPUT | GPIO_PUSHPULL | GPIO_SPEED_50MHz | \
-                         GPIO_OUTPUT_SET | GPIO_PORTD | GPIO_PIN14)
+                         GPIO_OUTPUT_SET | GPIO_PORTA | GPIO_PIN4)
 #define GPIO_OA_TC6_INT (GPIO_INPUT | GPIO_FLOAT | GPIO_PORTF | GPIO_PIN3)
 
 /* PWM */
@@ -281,5 +282,10 @@ int stm32_pwm_setup(void);
 #ifdef CONFIG_NET_OA_TC6
 int stm32_oa_tc6_initialize(void);
 #endif
+
+#ifdef CONFIG_SPI_DRIVER
+void stm32_spibus_initialize_and_register(int port);
+#endif
+
 
 #endif /* __BOARDS_ARM_STM32H7_NUCLEO_H723ZG_SRC_NUCLEO_H723ZG_H */

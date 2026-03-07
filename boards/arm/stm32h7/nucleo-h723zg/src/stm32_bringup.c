@@ -66,8 +66,16 @@
 #  include "stm32_capture.h"
 #endif
 
+#ifdef CONFIG_I2C
+#  include "stm32_i2c.h"
+#endif
+
 #ifdef CONFIG_STM32H7_IWDG
 #  include "stm32_wdg.h"
+#endif
+
+#ifdef CONFIG_STM32H7_FDCAN
+#include "stm32_fdcan_sock.h"
 #endif
 
 #ifdef CONFIG_RNDIS
@@ -498,6 +506,12 @@ int stm32_bringup(void)
   /* Initialize the watchdog timer */
 
   stm32_iwdginitialize("/dev/watchdog0", STM32_LSI_FREQUENCY);
+#endif
+
+#ifdef CONFIG_SPI_DRIVER
+#ifdef CONFIG_STM32H7_SPI1
+  stm32_spibus_initialize_and_register(1);
+#endif
 #endif
 
 #ifdef CONFIG_NET_OA_TC6

@@ -35,6 +35,9 @@
 #include "stm32_start.h"
 #include "nucleo-h723zg.h"
 
+#include "stm32_fdcan_sock.h"
+#include "stm32_ethernet.h"
+
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
@@ -89,5 +92,21 @@ void stm32_boardinitialize(void)
 void board_late_initialize(void)
 {
   stm32_bringup();
+
+#ifdef CONFIG_NETDEV_LATEINIT
+
+#  ifdef CONFIG_STM32H7_ETHMAC
+   stm32_ethinitialize(0);
+#  endif
+
+#  ifdef CONFIG_STM32H7_FDCAN1
+  stm32_fdcansockinitialize(0);
+#  endif
+
+#  ifdef CONFIG_STM32H7_FDCAN2
+  stm32_fdcansockinitialize(1);
+#  endif
+
+#endif
 }
 #endif

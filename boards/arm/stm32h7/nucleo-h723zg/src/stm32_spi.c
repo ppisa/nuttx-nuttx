@@ -32,6 +32,7 @@
 #include <debug.h>
 
 #include <nuttx/spi/spi.h>
+#include <nuttx/spi/spi_transfer.h>
 
 #include "arm_internal.h"
 #include "chip.h"
@@ -42,6 +43,7 @@
 #include <arch/board/board.h>
 
 #ifdef CONFIG_STM32H7_SPI
+
 
 /****************************************************************************
  * Public Functions
@@ -74,6 +76,26 @@ void stm32_spidev_initialize(void)
 #  endif
 #endif
 }
+
+#ifdef CONFIG_SPI_DRIVER
+void stm32_spibus_initialize_and_register(int port)
+{
+  struct spi_dev_s *spidev = stm32_spibus_initialize(port);
+
+  if (!spidev)
+    {
+      spierr("ERROR Failed to initialize SPI port 1\n");
+    }
+  else
+    {
+      int ret = spi_register(spidev, port);
+      if (ret < 0)
+        {
+          spierr("ERROR: FAILED to register driver of SPI port 1\n");
+        }
+    }
+}
+#endif
 
 /****************************************************************************
  * Name:  stm32_spi1/2/3/4/5select and stm32_spi1/2/3/4/5status
