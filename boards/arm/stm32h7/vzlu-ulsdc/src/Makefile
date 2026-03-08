@@ -66,4 +66,8 @@ ifeq ($(CONFIG_NET_OA_TC6), y)
 CSRCS += stm32_oa_tc6.c
 endif
 
+ifeq ($(CONFIG_ETC_ROMFS),y)
+RCSRCS = etc/init.d/rc.sysinit etc/init.d/rcS
+endif
+
 include $(TOPDIR)/boards/Board.mk

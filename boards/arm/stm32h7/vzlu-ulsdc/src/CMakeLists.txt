@@ -64,6 +64,10 @@ if(CONFIG_NET_OA_TC6)
   list(APPEND SRCS stm32_oa_tc6.c)
 endif()
 
+if(CONFIG_ETC_ROMFS)
+  list(APPEND SRCS etc_romfs.c)
+endif()
+
 target_sources(board PRIVATE ${SRCS})
 
 if(CONFIG_STM32_APP_FORMAT_MCUBOOT)
