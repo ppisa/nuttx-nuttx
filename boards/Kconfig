@@ -1924,6 +1924,17 @@ config ARCH_BOARD_NUCLEO_H723ZG
 	---help---
 		STMicro Nucleo H723ZG board based on the STMicro STM32H723ZG MCU.
 
+config ARCH_BOARD_VZLU_ULSDC
+	bool "VZLU ULSDC STM32H723VG Based Board"
+	depends on ARCH_CHIP_STM32H723VG
+	select ARCH_HAVE_LEDS
+	select ARCH_HAVE_BUTTONS
+	select ARCH_HAVE_IRQBUTTONS
+	---help---
+		VZLU and BD Sensors Universal Low Speed Digital Communication (ULSDC)
+		interfaces board developed in frame of MEGSE project.
+		It is based on STM32H723VG chip.
+
 config ARCH_BOARD_NUCLEO_H743ZI
 	bool "STM32H743 Nucleo H743ZI"
 	depends on ARCH_CHIP_STM32H743ZI
@@ -3709,6 +3720,7 @@ config ARCH_BOARD
 	default "weact-stm32h743"              if ARCH_BOARD_WEACT_STM32H743
 	default "weact-stm32h750"              if ARCH_BOARD_WEACT_STM32H750
 	default "nucleo-h723zg"                if ARCH_BOARD_NUCLEO_H723ZG
+	default "vzlu-ulsdc"                   if ARCH_BOARD_VZLU_ULSDC
 	default "nucleo-h743zi"                if ARCH_BOARD_NUCLEO_H743ZI
 	default "nucleo-h743zi2"               if ARCH_BOARD_NUCLEO_H743ZI2
 	default "nucleo-h745zi"                if ARCH_BOARD_NUCLEO_H745ZI
@@ -4447,6 +4459,9 @@ source "boards/arm/stm32h7/weact-stm32h750/Kconfig"
 endif
 if ARCH_BOARD_NUCLEO_H723ZG
 source "boards/arm/stm32h7/nucleo-h723zg/Kconfig"
+endif
+if ARCH_BOARD_VZLU_ULSDC
+source "boards/arm/stm32h7/vzlu-ulsdc/Kconfig"
 endif
 if ARCH_BOARD_NUCLEO_H743ZI
 source "boards/arm/stm32h7/nucleo-h743zi/Kconfig"
